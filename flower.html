@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en"><head>
   <title>Webapps Program 7
   </title>
   <meta charset="utf-8">
@@ -28,7 +27,82 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js" 
     integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y" crossorigin="anonymous"></script>  
 
-  </head>
+  <script>
+    ids = [];
+    for (let i = 1; i < 37; i++)
+  {
+    ids.push(String(i));
+  }
+  score = 0;
+  locationsVisited = 0;
+  lastLocation = 0;
+  poisonLocation = 19;
+  roseLocation = 14;
+  lilyLocations = [3,25];
+  daisyLocations = [2,5,11,20,21];
+  gameOver = false;
+  
+  function check(position)
+  {
+    if(gameOver == false)
+  {
+    let img = document.getElementById(position);
+    if (position == poisonLocation)
+      {
+        console.log("posion");
+        img.src = "img/ivy.jpeg";
+        document.getElementById(position).onClick = "";
+        gameOver = true;
+        score -= 4;
+        document.getElementById("score").style = "color:red";
+      }
+      else if (position == roseLocation)
+      {
+        img.src = "img/rose.jpg";
+        document.getElementById(position).onClick = "";
+        score += 4;
+      }
+      else if (lilyLocations.includes(position))
+      {
+        img.src = "img/lily.webp";
+        document.getElementById(position).onClick = "";
+        score += 2;
+      }
+      else if (daisyLocations.includes(position))
+      {
+        img.src = "img/daisy.jpeg";
+        document.getElementById(position).onClick = "";
+        score += 1;
+      }
+    }
+    locationsVisited += 1;
+    lastLocation = position;
+    document.getElementById("locations").innerHTML = "Number of locations checked is " + locationsVisited;
+    document.getElementById("score").innerHTML = "Score is " + score;
+  }
+  
+  function help()
+  {
+    let help = document.getElementById("help");
+    closest4 = [lastLocation - 1, lastLocation + 1, lastLocation - 6, lastLocation + 6];
+    closest9 = [lastLocation - 7, lastLocation - 6, lastLocation - 5, lastLocation - 1, lastLocation, lastLocation + 1, lastLocation + 5, lastLocation + 6, lastLocation + 7];
+    console.log(closest4.some(item => daisyLocations.includes(item)));
+  if (closest9.includes(poisonLocation))
+  {
+    help.innerHTML = "Click for help: watch out";
+  }
+  else if (closest9.includes(roseLocation))
+  {
+    help.innerHTML = "Click for help: hot";
+  }
+  else if (closest4.some(item => daisyLocations.includes(item)))
+  {
+    help.innerHTML = "Click for help: cold";
+  }
+  else help.innerHTML = "Click for help: warm";
+  }
+</script>
+</head>
 <body>
   <h1>Logan Masters finds avians</h1>
   <br>
@@ -36,66 +110,67 @@
     Click on the locations to find the flowers, watch out for the poison ivy
   </div>
   <div id="locations">
-    Number of locations checked is zero
+    Number of locations checked is 0
   </div>
   <div id="score">
-    Score is zero
+    Score is 0
   </div>
-  <div id="help">
+  <div id="help" onclick="help()">
     Click for help
   </div>
   <br>
 
+<div id="gameContainer">
   <div class="row">
     <div class="column">
-      <img src="img/bush.png">
-      <img src="img/bush.png">
-      <img src="img/bush.png">
-      <img src="img/bush.png">
-      <img src="img/bush.png">
-      <img src="img/bush.png">
+      <img id="1" onclick="check(1)" src="img/bush.png">
+      <img id="2" onclick="check(2)" src="img/bush.png">
+      <img id="3" onclick="check(3)" src="img/bush.png">
+      <img id="4" onclick="check(4)" src="img/bush.png">
+      <img id="5" onclick="check(5)" src="img/bush.png">
+      <img id="6" onclick="check(6)" src="img/bush.png">
     </div>
     <div class="column">
-      <img src="img/bush.png">
-      <img src="img/bush.png">
-      <img src="img/bush.png">
-      <img src="img/bush.png">
-      <img src="img/bush.png">
-      <img src="img/bush.png">
+      <img id="7" onclick="check(7)" src="img/bush.png">
+      <img id="8" onclick="check(8)" src="img/bush.png">
+      <img id="9" onclick="check(9)" src="img/bush.png">
+      <img id="10" onclick="check(10)" src="img/bush.png">
+      <img id="11" onclick="check(11)" src="img/bush.png">
+      <img id="12" onclick="check(12)" src="img/bush.png">
     </div>
     <div class="column">
-      <img src="img/bush.png">
-      <img src="img/bush.png">
-      <img src="img/bush.png">
-      <img src="img/bush.png">
-      <img src="img/bush.png">
-      <img src="img/bush.png">
+      <img id="13" onclick="check(13)" src="img/bush.png">
+      <img id="14" onclick="check(14)" src="img/bush.png">
+      <img id="15" onclick="check(15)" src="img/bush.png">
+      <img id="16" onclick="check(16)" src="img/bush.png">
+      <img id="17" onclick="check(17)" src="img/bush.png">
+      <img id="18" onclick="check(18)" src="img/bush.png">
     </div>
     <div class="column">
-      <img src="img/bush.png">
-      <img src="img/bush.png">
-      <img src="img/bush.png">
-      <img src="img/bush.png">
-      <img src="img/bush.png">
-      <img src="img/bush.png">
+      <img id="19" onclick="check(19)" src="img/bush.png">
+      <img id="20" onclick="check(20)" src="img/bush.png">
+      <img id="21" onclick="check(21)" src="img/bush.png">
+      <img id="22" onclick="check(22)" src="img/bush.png">
+      <img id="23" onclick="check(23)" src="img/bush.png">
+      <img id="24" onclick="check(24)" src="img/bush.png">
     </div>
     <div class="column">
-      <img src="img/bush.png">
-      <img src="img/bush.png">
-      <img src="img/bush.png">
-      <img src="img/bush.png">
-      <img src="img/bush.png">
-      <img src="img/bush.png">
+      <img id="25" onclick="check(25)" src="img/bush.png">
+      <img id="26" onclick="check(26)" src="img/bush.png">
+      <img id="27" onclick="check(27)" src="img/bush.png">
+      <img id="28" onclick="check(28)" src="img/bush.png">
+      <img id="29" onclick="check(29)" src="img/bush.png">
+      <img id="30" onclick="check(30)" src="img/bush.png">
     </div>
     <div class="column">
-      <img src="img/bush.png">
-      <img src="img/bush.png">
-      <img src="img/bush.png">
-      <img src="img/bush.png">
-      <img src="img/bush.png">
-      <img src="img/bush.png">
+      <img id="31" onclick="check(31)" src="img/bush.png">
+      <img id="32" onclick="check(32)" src="img/bush.png">
+      <img id="33" onclick="check(33)" src="img/bush.png">
+      <img id="34" onclick="check(34)" src="img/bush.png">
+      <img id="35" onclick="check(35)" src="img/bush.png">
+      <img id="36" onclick="check(36)" src="img/bush.png">
     </div>
   </div>
-  
+</div>
 </body>
 </html>
