@@ -17,25 +17,114 @@
 <body>
   <h1> Logan Masters Reflexes</h1>
 
-  <div id="target" >Your time: 0:0.0</div>
-  <div id="counter" >Count: 0:0.0</div>
+  <div id="result">Stop as close to 0 as possible.</div>
+  <div id="best">Best time: </div>
+  <div id="counter" >00:00.000</div>
 
-  <button type="button"
-  class="btn btn-success"
-  onclick="">
-  Go</button>
-
-  <button type="button"
-  class="btn btn-danger"
-  onclick="recordTime()">
-  Halt</button>
+  <button id="btn" type="button" class="btn btn-success" onclick="startTimer()">Go</button>
   
   <script> 
-   haltTime;
-  function recordTime() {
-    haltTime = Date.now();
-    console.log(haltTime);
-  }
+    const result = document.getElementById("result");
+    const best = document.getElementById("best");
+    const display = document.getElementById("counter");
+    const actionBtn = document.getElementById("btn");
+
+    const countdown_duration = 5000;
+
+    let startTime = 0;
+    let timeoutId = null;
+    let timeRemaining = countdown_duration;
+    let bestTime = 5000;
+
+    display.textContent = "00:05.000";
+
+    actionBtn.addEventListener("click", (event) => 
+    {
+      event.preventDefault();
+      event.stopPropagation();
+
+      const currentText = actionBtn.textContent.trim().toLowerCase();
+
+      if (currentText === "go") 
+      {
+        actionBtn.textContent = "Stop";
+        actionBtn.className = "btn btn-danger";
+        
+        startTime = performance.now() - (countdown_duration - timeRemaining);
+        
+        if (timeoutId) clearTimeout(timeoutId); 
+        runTimer();
+
+      } 
+      else if (currentText === "stop") 
+      {
+        if (timeoutId) clearTimeout(timeoutId);
+        timeoutId = null;
+        
+        actionBtn.textContent = "Reset";
+        actionBtn.className = "btn btn-warning";
+        if (timeRemaining < bestTime)
+        {
+          bestTime = timeRemaining;
+          best.textContent = "Best time: " + formatTime(bestTime);
+        }
+      } 
+      else if (currentText === "reset")
+      {
+        if (timeoutId) clearTimeout(timeoutId);
+        timeoutId = null;
+        
+        timeRemaining = countdown_duration;
+        display.textContent = "00:05.000";
+        result.textContent = "Stop as close to 0 as possible.";
+        
+        actionBtn.textContent = "Go";
+        actionBtn.className = "btn btn-success";
+      }
+
+    });
+
+    function runTimer() 
+    {
+      if (actionBtn.textContent.trim().toLowerCase() !== "stop") return;
+
+      const elapsedTime = performance.now() - startTime;
+      timeRemaining = countdown_duration - elapsedTime;
+
+      if (timeRemaining <= 0) 
+      {
+        timeRemaining = 0;
+        display.textContent = formatTime(timeRemaining);
+        
+        if (timeoutId) clearTimeout(timeoutId);
+        timeoutId = null;
+        
+        actionBtn.textContent = "Reset";
+        actionBtn.className = "btn btn-warning";
+        result.textContent = "Try again.";
+
+        return;
+      }
+      display.textContent = formatTime(timeRemaining);
+
+      timeoutId = setTimeout(runTimer, 1);
+    }
+
+    function formatTime(ms) 
+    {
+      if (!ms || ms < 0 || isNaN(ms)) return "00:00.000";
+      
+      const minutes = Math.floor(ms / 60000);
+      const seconds = Math.floor((ms % 60000) / 1000);
+      const milliseconds = Math.floor(ms % 1000);
+
+      return (
+        String(minutes).padStart(2, '0') + ':' +
+        String(seconds).padStart(2, '0') + '.' +
+        String(milliseconds).padStart(3, '0')
+      );
+    }
+
   </script>
 
 </body>
