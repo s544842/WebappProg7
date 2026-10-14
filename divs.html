@@ -21,8 +21,6 @@
 <title>Webapps Program 7 [III]</title>
 </head>
 
-
-
 <body>
 	<h1>Logan Masters builds lists with divs</h1>
 		<div class="flex-container" id="target">
@@ -33,17 +31,37 @@
 	
 	<br>
 	<input type="text" id="input">
+	<button onclick="addFront()">Add to front</button>
 	<button onclick="makeNewDiv()">Add to end</button>
+	<button onclick="removeEveryOther()">Remove every other</button>
 	
 	
 </body>
 <script>
 	function makeNewDiv(){
-		let element = document.createElement("div")
+		let element = document.createElement("div");
 		element.className = "divlist";
-		element.innerHTML = document.getElementById("input").value
+		element.innerHTML = document.getElementById("input").value;
 
-		document.getElementById('target').appendChild(element)
+		document.getElementById('target').appendChild(element);
+	}
+	function addFront(){
+		let element = document.createElement("div");
+		element.className = "divlist";
+		element.innerHTML = document.getElementById("input").value;
+
+		document.getElementById('target').insertBefore(element, document.getElementById('target').firstChild);
+	}
+	function removeEveryOther(){
+		let divListItems = Array.from(document.getElementsByClassName("divlist"));
+		if (divListItems.length > 0){
+			for (let i = 0; i < divListItems.length; i ++){
+				if (i % 2 == 0){
+					console.log("Removed item at index " + i + " : " + divListItems[i].textContent);
+					divListItems[i].remove();
+				}
+			}
+		}
 	}
 </script>
 </html>	
